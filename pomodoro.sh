@@ -1,21 +1,10 @@
 #!/bin/bash
 # Simple pomodoro timer for Linux
 
-RED='\033[0;31m'
-ORANGE='\033[0;33m'
-
-if [[ "$1" == "-v" ]] || [[ "$1" == "--version" ]]; then
-	echo -e "${ORANGE}POMODORO TIMER"
-	echo "  v: 1.0"
-	echo "  Adapted from: rukshn.github.io"
-	echo -e "  email: mail[@]jbrinco.com"
-	return
-fi
 
 TIMER=3000
 BREAKTIMER=600
 NUMBER=3
-
 
 while getopts ":d:b:n:h" o; do case "${o}" in
 	d) TIMER=$((OPTARG*60)) ;;
@@ -32,7 +21,7 @@ esac done
 while [ "$NUMBER" -gt 1 ]
 do
 	TIMELEFT=$TIMER
-	clear && echo -e "${RED}Timer set for $((TIMER/60)) minutes\n${NUMBER} Pomodoros left "
+	clear && echo -e "Timer set for $((TIMER/60)) minutes\n${NUMBER} Pomodoros left "
 	while [ "$TIMELEFT" -gt 60 ]
 	do
 		((TIMELEFT=TIMELEFT-60)); sleep 60 && clear && echo -e "Work Period\n$((TIMELEFT/60)) minutes left\n${NUMBER} Pomodoros to go";
