@@ -10,7 +10,7 @@ I wrote this for myself. It is an extremely simple script, you can modify it to 
 
 # Setup
 
-You need to put the notification.ogg file in ~/.config. For convenience, remove the .sh from the script and add it to your PATH.
+You need to create a ~/.config/pomodoro directory. Move notification.ogg there. For convenience, remove the .sh from the script and add it to your PATH.
 
 # How to use
 
