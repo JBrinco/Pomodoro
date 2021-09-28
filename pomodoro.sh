@@ -11,8 +11,8 @@ while getopts ":d:b:lLn:h" o; do case "${o}" in
 	b) BREAKTIMER=$((OPTARG*60)) ;;
 	n) NUMBER=${OPTARG} ;;
 	l) echo -e "Last 10 pomodoros:\n" && tail ~/.config/pomodoro/pomodorolog && exit 0 ;;
-	L) echo -e "Full Pomodoro log:\n" && less ~/.config/pomodoro/pomodorolog && exit 0 ;;
-	h) echo -e "Usage: pomodoro \nOptions: \n d: timer duration in minutes (default 50)\n b: Break duration in minutes (default 10)\n n: Number of pomodoros (default 3)\n l: Show log of 10 last pomodoros\n L: Show full log" && exit 0 ;;
+	L) less ~/.config/pomodoro/pomodorolog && exit 0 ;;
+	h) echo -e "Usage: pomodoro \nOptions: \n -d: timer duration in minutes (default 50)\n -b: Break duration in minutes (default 10)\n -n: Number of pomodoros (default 3)\n -l: Show log of 10 last pomodoros\n -L: Show full log" && exit 0 ;;
 	*) printf "Invalid option: -%s\\n" "$OPTARG" && exit 1 ;;
 esac done
 
