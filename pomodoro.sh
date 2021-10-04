@@ -1,6 +1,7 @@
 #!/bin/bash
 # Simple pomodoro timer for Linux
-
+#Copyright (c) 2021 João Brinco
+#Released under GPL v3
 
 TIMER=3000
 BREAKTIMER=600
