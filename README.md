@@ -10,11 +10,13 @@ I wrote this for myself. It is an extremely simple script, you can modify it to 
 
 # Setup
 
-You need to create a ~/.config/pomodoro directory. Move notification.ogg there. For convenience, remove the .sh from the script and add it to your PATH.
+You need to create a ~/.config/pomodoro directory. Move notification.ogg there. For convenience, you should add the script to your PATH.
+
+The script asumes you use dunst for notifications (you probably don't). Simply remove the `&& dunstctl close-all` from the script (in 2 places). All this does is automatically clear the previous notification when you start a new pomodoro or break.
 
 # How to use
 
-In the directory where the script is, type `./pomodoro.sh -h` to get all the possible options. Or if you added it to your PATH, just do `pomodoro -h`.
+In the directory where the script is, type `./pomodoro -h` to get all the possible options. Or if you added it to your PATH, just do `pomodoro -h`.
 
 
 # To add

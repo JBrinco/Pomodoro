@@ -1,0 +1,68 @@
+#!/bin/bash
+# Simple pomodoro timer for Linux
+#Copyright (c) 2021 João Brinco
+#Released under GPL v3
+#😴☕
+TIMER=2400
+BREAKTIMER=600
+BIGBREAKTIMER=1800
+NUMBER=3
+
+while getopts ":d:b:B:lLn:h" o; do case "${o}" in
+	d) TIMER=$((OPTARG*60)) ;;
+	b) BREAKTIMER=$((OPTARG*60)) ;;
+	B) BIGBREAKTIMER=$((OPTARG*60)) ;;
+	n) NUMBER=${OPTARG} ;;
+	l) echo -e "Last 10 pomodoros:\n" && tail ~/.config/pomodoro/pomodorolog && exit 0 ;;
+	L) less ~/.config/pomodoro/pomodorolog && exit 0 ;;
+	h) echo -e "Usage: pomodoro \nOptions: \n -d: timer duration in minutes (default 40)\n -b: Break duration in minutes (default 10)\n -B: Big break duration in minutes (default 30)\n -n: Number of pomodoros (default 3)\n -l: Show log of 10 last pomodoros\n -L: Show full log" && exit 0 ;;
+	*) printf "Invalid option: -%s\\n" "$OPTARG" && exit 1 ;;
+esac done
+
+
+((MINTIMER=TIMER/60))
+
+
+while [ "$NUMBER" -gt 0 ]
+do
+	TIMELEFT=$TIMER
+	clear && echo -e "Timer set for $((TIMER/60)) minutes\n${NUMBER} Pomodoros left "
+	while [ "$TIMELEFT" -gt 0 ]
+	do
+		((TIMELEFT=TIMELEFT-60)); sleep 60 && clear && echo -e "Work Period\n$((TIMELEFT/60)) minutes left\n${NUMBER} Pomodoros to go";
+	done
+
+	echo "$(date "+%d %b %Y 🕑 %H:%M") $MINTIMER minutes"  >> ~/.config/pomodoro/pomodorolog
+	notify-send --urgency=critical "☕ Pomodoro Over" "Start Break!" && paplay ~/.config/pomodoro/notification.ogg
+
+	clear && read -p "Pomdoro over. Press enter to start break timer " && dunstctl close-all
+
+
+	((NUMBER=NUMBER-1))
+
+	if [ "$NUMBER" -gt 1 ]
+	then
+	TIMELEFT=$BREAKTIMER
+	clear && echo -e "Break Period\n$((TIMELEFT/60)) minutes left\n${NUMBER} Pomodoros to go"
+	while [ "$TIMELEFT" -gt 0 ]
+	do
+		((TIMELEFT=TIMELEFT-60)); sleep 60 && clear && echo -e "Break Period\n$((TIMELEFT/60)) minutes left\n${NUMBER} Pomodoros to go"
+	done
+
+	notify-send --urgency=critical "🍅 Break Time Over" "Back to Work!" && paplay ~/.config/pomodoro/notification.ogg
+
+	clear && read -p "Break time over. Press enter to start new Pomodoro" && dunstctl close-all
+	fi
+done
+
+TIMELEFT=$BIGBREAKTIMER
+clear && echo -e "BIG Break Period\n$((TIMELEFT/60)) minutes left\n No more Pomodoros in this set!"
+while [ "$TIMELEFT" -gt 0 ]
+do
+	((TIMELEFT=TIMELEFT-60)); sleep 60 && clear && echo -e "Big Break Period\n$((TIMELEFT/60)) minutes left\n No more Pomodoros in this set!"
+done
+
+notify-send --urgency=critical "🍅 Big Break over" "Back to Work!" "(Or not, suit yourself)" && paplay ~/.config/pomodoro/notification.ogg
+
+
+echo "All done! Have a great day!"
